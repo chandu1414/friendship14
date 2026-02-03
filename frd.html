@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Be My Friend Again</title>
+<style>
+body{
+    margin:0;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    font-family: Arial, sans-serif;
+    overflow:hidden;
+}
+
+.screen{
+    width:90%;
+    max-width:900px;
+    height:520px;
+    background: linear-gradient(135deg, #ff6a95, #845ec2);
+    border-radius:25px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.25);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    position:relative;
+}
+
+h1{
+    color:white;
+    font-size:34px;
+}
+
+.buttons{
+    margin-top:25px;
+    display:flex;
+    justify-content:center;
+    gap:18px;
+}
+
+button{
+    padding:14px 32px;
+    font-size:20px;
+    border:none;
+    border-radius:30px;
+    margin:10px;
+    cursor:pointer;
+}
+
+.yes{
+    background:#00e676;
+    color:white;
+}
+
+.no{
+    background:#ff1744;
+    color:white;
+}
+
+/* Floating hearts */
+.heart{
+    position:absolute;
+    font-size:26px;
+    animation:float 4s linear infinite;
+}
+
+@keyframes float{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(-450px);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="screen">
+    <div>
+        <!-- TOP GIF (REPLACED) -->
+        <img id="topGif"
+             src="https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUydWU1Zjc3dWRlcTJiNjNldmE3eHB1NXFvc3N5bjFudzJ2OWFqemd4eSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ISOckXUybVfQ4/giphy.gif"
+             style="width:170px; border-radius:12px; margin-bottom:12px;">
+
+        <h1>💖 Milkyy, will you be my frd again? 💖</h1>
+
+        <div class="buttons">
+            <button class="no" id="noBtn" onmouseover="runAway()">No 💔</button>
+            <button class="yes" onclick="yes()">Yes ❤️</button>
+        </div>
+
+        <p id="message"></p>
+    </div>
+</div>
+
+<script>
+// "No" button runs away
+function runAway(){
+    let btn = document.getElementById("noBtn");
+    let x = Math.random() * (window.innerWidth - 150);
+    let y = Math.random() * (window.innerHeight - 120);
+    btn.style.position = "absolute";
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+}
+
+// When she clicks YES
+function yes(){
+    // Remove the top sad GIF
+    document.getElementById("topGif").style.display = "none";
+
+    // Show happy GIF + message
+    document.getElementById("message").innerHTML = `
+    <img src="https://i.pinimg.com/originals/b2/d6/b8/b2d6b839786a6843bb3c0ad88357ec5e.gif"
+         style="width:160px; border-radius:12px; margin-bottom:10px;">
+    <br>
+    Yayyy Milkyy! You just made my day special 💘 aythi msg cheuuu!
+    `;
+
+    // Get current date & time
+    let now = new Date();
+    let timeClicked = now.toLocaleString();
+    let data = "YES at " + timeClicked;
+
+    // Send data silently in background (no redirect)
+    fetch(
+      "https://docs.google.com/forms/d/e/1FAIpQLSedLT2gko5ULW2H9SVkpjae7pwniqtKb0yCIbkPeAfGR3cybQ/formResponse?entry.976798027=" 
+      + encodeURIComponent(data),
+      { method: "POST", mode: "no-cors" }
+    );
+}
+
+// Floating hearts effect
+function createHeart(){
+    let heart = document.createElement("div");
+    heart.innerHTML = "💗";
+    heart.classList.add("heart");
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.top = "520px";
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{heart.remove();},4000);
+}
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
